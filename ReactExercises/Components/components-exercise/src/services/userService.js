@@ -53,8 +53,6 @@ export const createUser = async (data) => {
 };
 
 export const editUser = async (data, userId) => {
-  console.log(data);
-
   const editedUser = {
     firstName: data.firstName,
     lastName: data.lastName,
@@ -62,10 +60,10 @@ export const editUser = async (data, userId) => {
     phoneNumber: data.phoneNumber,
     imageUrl: data.imageUrl,
     address: {
-      country: data.country,
-      city: data.city,
-      street: data.street,
-      streetNumber: data.streetNumber,
+      country: data.address.country,
+      city: data.address.city,
+      street: data.address.street,
+      streetNumber: data.address.streetNumber,
     },
   };
 

@@ -11,6 +11,7 @@ export default function UserList({
   onDelete,
   onUserCreateSubmit,
   onUserEditSubmit,
+  sortByName,
 }) {
   const [selectedUser, setSelectedUser] = useState(null);
   const [addUser, setAddUser] = useState(false);
@@ -19,9 +20,14 @@ export default function UserList({
   const [editedUserValues, setEditedUserValues] = useState(null);
 
   function onEditedUserChange(e) {
-    setEditedUserValues((state) => ({
-      ...state,
-      [e.target.name]: e.target.value,
+    const { name, value } = e.target;
+    setEditedUserValues((prevData) => ({
+      ...prevData,
+      [name]: value,
+      address: {
+        ...prevData.address,
+        [name]: value,
+      },
     }));
   }
 
@@ -52,12 +58,12 @@ export default function UserList({
     toggleAddUserWindow();
   }
 
-  function onUserEditClick(userToEdit) {
+  async function onUserEditClick(userId) {
+    const userToEdit = await userService.getOne(userId);
     setEditedUserValues(userToEdit);
   }
 
   function onUserEditClose() {
-    console.log("dsadsad");
     setEditedUserValues(null);
   }
 
@@ -83,6 +89,7 @@ export default function UserList({
           onUserEditSubmit={onUserEditSubmit}
           editedUserValues={editedUserValues}
           onEditedUserChange={onEditedUserChange}
+          errorsEditedUser={editedUserValues}
         ></UserEdit>
       )}
 
@@ -91,7 +98,7 @@ export default function UserList({
           <thead>
             <tr>
               <th>Image</th>
-              <th>
+              <th onClick={() => sortByName(users)}>
                 First name
                 <svg
                   className="icon svg-inline--fa fa-arrow-down Table_icon__+HHgn"
@@ -181,7 +188,6 @@ export default function UserList({
                 onInfoClick={onInfoClick}
                 onDeleteClick={onDeleteClick}
                 onUserEditClick={onUserEditClick}
-                editedUserValues={editedUserValues}
               ></User>
             ))}
           </tbody>

@@ -1,9 +1,25 @@
+import ValidationError from "./ValidationError";
+import { useState } from "react";
+
 export default function UserEdit({
   onUserEditClose,
   onUserEditSubmit,
   onEditedUserChange,
   editedUserValues,
 }) {
+  const [streetError, setStreetError] = useState(false);
+  const [firstNameError, setFirstNameError] = useState(false);
+  const [lastNameError, setLastNameError] = useState(false);
+
+  function validateStreetNumber(n) {
+    setStreetError(n < 0);
+  }
+
+  function validateFirstName(n) {
+    setFirstNameError(n.length < 3);
+    setLastNameError(n.length < 3);
+  }
+
   return (
     <div className="overlay">
       <div className="backdrop"></div>
@@ -48,11 +64,14 @@ export default function UserEdit({
                     type="text"
                     value={editedUserValues.firstName}
                     onChange={onEditedUserChange}
+                    onBlur={() => validateFirstName(editedUserValues.firstName)}
                   />
                 </div>
-                <p className="form-error">
-                  First name should be at least 3 characters long!
-                </p>
+                {firstNameError && (
+                  <ValidationError
+                    message={"First name should be atlest 3 characters!"}
+                  ></ValidationError>
+                )}
               </div>
               <div className="form-group">
                 <label htmlFor="lastName">Last name</label>
@@ -66,11 +85,14 @@ export default function UserEdit({
                     type="text"
                     value={editedUserValues.lastName}
                     onChange={onEditedUserChange}
+                    onBlur={() => setLastNameError(editedUserValues.lastName)}
                   />
                 </div>
-                <p className="form-error">
-                  Last name should be at least 3 characters long!
-                </p>
+                {lastNameError && (
+                  <ValidationError
+                    message={"Last name should be longer than 3 symbols!"}
+                  ></ValidationError>
+                )}
               </div>
             </div>
 
@@ -138,7 +160,7 @@ export default function UserEdit({
                     name="country"
                     type="text"
                     onChange={onEditedUserChange}
-                    value={editedUserValues.country || ""}
+                    value={editedUserValues.address.country}
                   />
                 </div>
                 <p className="form-error">
@@ -156,7 +178,7 @@ export default function UserEdit({
                     name="city"
                     type="text"
                     onChange={onEditedUserChange}
-                    value={editedUserValues.city || ""}
+                    value={editedUserValues.address.city}
                   />
                 </div>
                 <p className="form-error">
@@ -177,7 +199,7 @@ export default function UserEdit({
                     name="street"
                     type="text"
                     onChange={onEditedUserChange}
-                    value={editedUserValues.street || ""}
+                    value={editedUserValues.address.street}
                   />
                 </div>
                 <p className="form-error">
@@ -195,12 +217,19 @@ export default function UserEdit({
                     name="streetNumber"
                     type="text"
                     onChange={onEditedUserChange}
-                    value={editedUserValues.streetNumber || ""}
+                    value={editedUserValues.address.streetNumber}
+                    onBlur={() =>
+                      validateStreetNumber(
+                        editedUserValues.address.streetNumber
+                      )
+                    }
                   />
                 </div>
-                <p className="form-error">
-                  Street number should be a positive number!
-                </p>
+                {streetError && (
+                  <ValidationError
+                    message={"Street number has to be positive!"}
+                  ></ValidationError>
+                )}
               </div>
             </div>
             <div id="form-actions">

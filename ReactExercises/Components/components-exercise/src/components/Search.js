@@ -1,6 +1,27 @@
-export default function Search() {
+import { useState } from "react";
+
+export default function Search({ filterOutSearch, clearSearchClick }) {
+  const [search, setSearch] = useState("");
+  const [searchOption, setSearchOption] = useState("firstName");
+
+  const onSearchChange = (e) => {
+    setSearch(e.target.value);
+  };
+
+  const onSearchOptionChange = (e) => {
+    setSearchOption(e.target.value);
+  };
+
+  const onSearchFieldClear = (e) => {
+    setSearch("");
+    clearSearchClick(e);
+  };
+
   return (
-    <form className="search-form">
+    <form
+      className="search-form"
+      onSubmit={(e) => filterOutSearch(e, searchOption, search)}
+    >
       <h2>
         <svg
           aria-hidden="true"
@@ -24,8 +45,10 @@ export default function Search() {
           type="text"
           placeholder="Please, select the search criteria"
           name="search"
+          value={search}
+          onChange={onSearchChange}
         />
-        <button className="btn close-btn">
+        <button className="btn close-btn" onClick={onSearchFieldClear}>
           <i className="fa-solid fa-xmark"></i>
         </button>
 
@@ -36,12 +59,17 @@ export default function Search() {
 
       <div className="filter">
         <span>Search Criteria:</span>
-        <select name="criteria" className="criteria">
-          <option>Not selected</option>
-          <option>First Name</option>
-          <option>Last Name</option>
-          <option>Email</option>
-          <option>Phone</option>
+        <select
+          name="criteria"
+          className="criteria"
+          onChange={onSearchOptionChange}
+          value={searchOption}
+        >
+          <option value="empty">Not selected</option>
+          <option value="firstName">First Name</option>
+          <option value="lastName">Last Name</option>
+          <option value="email">Email</option>
+          <option valie="phoneNumber">Phone</option>
         </select>
       </div>
     </form>

@@ -25,7 +25,7 @@ export default function User({
         <button
           className="btn edit-btn"
           title="Edit"
-          onClick={() => onUserEditClick(user)}
+          onClick={() => onUserEditClick(user._id)}
         >
           <svg
             aria-hidden="true"
