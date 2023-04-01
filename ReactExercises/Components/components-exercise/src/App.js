@@ -36,11 +36,8 @@ function App() {
     setUsers((state) => [...state, newUser]);
   };
 
-  const onUserEditSubmit = async (e, userId) => {
+  const onUserEditSubmit = async (e, data, userId) => {
     e.preventDefault();
-
-    const formData = new FormData(e.currentTarget);
-    const data = Object.fromEntries(formData);
 
     const updatedUser = await userService.editUser(data, userId);
 

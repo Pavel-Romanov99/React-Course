@@ -1,4 +1,9 @@
-export default function UserEdit({ onUserEditClose, onUserEditSubmit, user }) {
+export default function UserEdit({
+  onUserEditClose,
+  onUserEditSubmit,
+  onEditedUserChange,
+  editedUserValues,
+}) {
   return (
     <div className="overlay">
       <div className="backdrop"></div>
@@ -26,7 +31,7 @@ export default function UserEdit({ onUserEditClose, onUserEditSubmit, user }) {
           </header>
           <form
             onSubmit={(e) => {
-              onUserEditSubmit(e, user._id);
+              onUserEditSubmit(e, editedUserValues, editedUserValues._id);
               onUserEditClose();
             }}
           >
@@ -41,7 +46,8 @@ export default function UserEdit({ onUserEditClose, onUserEditSubmit, user }) {
                     id="firstName"
                     name="firstName"
                     type="text"
-                    value={user.firstName}
+                    value={editedUserValues.firstName}
+                    onChange={onEditedUserChange}
                   />
                 </div>
                 <p className="form-error">
@@ -58,7 +64,8 @@ export default function UserEdit({ onUserEditClose, onUserEditSubmit, user }) {
                     id="lastName"
                     name="lastName"
                     type="text"
-                    value={user.lastName}
+                    value={editedUserValues.lastName}
+                    onChange={onEditedUserChange}
                   />
                 </div>
                 <p className="form-error">
@@ -78,7 +85,8 @@ export default function UserEdit({ onUserEditClose, onUserEditSubmit, user }) {
                     id="email"
                     name="email"
                     type="text"
-                    value={user.email}
+                    value={editedUserValues.email}
+                    onChange={onEditedUserChange}
                   />
                 </div>
                 <p className="form-error">Email is not valid!</p>
@@ -93,7 +101,8 @@ export default function UserEdit({ onUserEditClose, onUserEditSubmit, user }) {
                     id="phoneNumber"
                     name="phoneNumber"
                     type="text"
-                    value={user.phoneNumber}
+                    onChange={onEditedUserChange}
+                    value={editedUserValues.phoneNumber}
                   />
                 </div>
                 <p className="form-error">Phone number is not valid!</p>
@@ -110,7 +119,8 @@ export default function UserEdit({ onUserEditClose, onUserEditSubmit, user }) {
                   id="imageUrl"
                   name="imageUrl"
                   type="text"
-                  value={user.imgUrl}
+                  onChange={onEditedUserChange}
+                  value={editedUserValues.imageUrl}
                 />
               </div>
               <p className="form-error">ImageUrl is not valid!</p>
@@ -127,7 +137,8 @@ export default function UserEdit({ onUserEditClose, onUserEditSubmit, user }) {
                     id="country"
                     name="country"
                     type="text"
-                    value={user.address?.country || "Bulgaria"}
+                    onChange={onEditedUserChange}
+                    value={editedUserValues.country || ""}
                   />
                 </div>
                 <p className="form-error">
@@ -140,7 +151,13 @@ export default function UserEdit({ onUserEditClose, onUserEditSubmit, user }) {
                   <span>
                     <i className="fa-solid fa-city"></i>
                   </span>
-                  <input id="city" name="city" type="text" />
+                  <input
+                    id="city"
+                    name="city"
+                    type="text"
+                    onChange={onEditedUserChange}
+                    value={editedUserValues.city || ""}
+                  />
                 </div>
                 <p className="form-error">
                   City should be at least 3 characters long!
@@ -155,7 +172,13 @@ export default function UserEdit({ onUserEditClose, onUserEditSubmit, user }) {
                   <span>
                     <i className="fa-solid fa-map"></i>
                   </span>
-                  <input id="street" name="street" type="text" />
+                  <input
+                    id="street"
+                    name="street"
+                    type="text"
+                    onChange={onEditedUserChange}
+                    value={editedUserValues.street || ""}
+                  />
                 </div>
                 <p className="form-error">
                   Street should be at least 3 characters long!
@@ -167,7 +190,13 @@ export default function UserEdit({ onUserEditClose, onUserEditSubmit, user }) {
                   <span>
                     <i className="fa-solid fa-house-chimney"></i>
                   </span>
-                  <input id="streetNumber" name="streetNumber" type="text" />
+                  <input
+                    id="streetNumber"
+                    name="streetNumber"
+                    type="text"
+                    onChange={onEditedUserChange}
+                    value={editedUserValues.streetNumber || ""}
+                  />
                 </div>
                 <p className="form-error">
                   Street number should be a positive number!

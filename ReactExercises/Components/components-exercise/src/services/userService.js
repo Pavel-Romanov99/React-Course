@@ -53,6 +53,8 @@ export const createUser = async (data) => {
 };
 
 export const editUser = async (data, userId) => {
+  console.log(data);
+
   const editedUser = {
     firstName: data.firstName,
     lastName: data.lastName,
@@ -72,6 +74,8 @@ export const editUser = async (data, userId) => {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(editedUser),
   };
+
+  console.log(`${baseUrl}/${userId}`);
 
   const response = await fetch(`${baseUrl}/${userId}`, requestOptions);
   const result = await response.json();
